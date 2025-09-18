@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    ul
+    {
+      list-style-type: none;
+    }
+    ul li
+    {
+      margin:5px;
+    }
+    ul input
+    {
+      padding:5px;
+    }
+  </style>
+</head>
+<body>
+
+<ul>
+  <li><input type="text" placeholder="name" id="user"></li>
+  <li><input type="email" placeholder="email" id="email"></li>
+  <li><input type="text" placeholder="phone" id="phone"></li>
+  <li>Male<input type="radio" name="a" id="male" checked> Female<input type="radio" name="a" id="female"></li>
+  <li><input type="button" value="add" onclick="adddata()">
+    <input type="button" value="show all" onclick="getdata()">
+  </li>
+</ul>
+
+<table width="600" cellpadding="2" border="1" align="center">
+  <thead>
+    <tr>
+      <th>s.no</th>
+      <th>userName</th>
+      <th>Email id</th>
+      <th>Phone No</th>
+      <th>Gender</th>
+    </tr>
+  </thead>
+  <tbody id="showdata">
+      
+  </tbody>
+</table>
+
+
+<script>
+  var formdata=[];
+  function adddata()
+  {
+    
+   var user,email,phone,gender;
+    user = document.getElementById('user');
+    email = document.getElementById('email');
+    phone = document.getElementById('phone');
+    if(document.getElementById('male').checked==true)
+    {
+      gender="male";
+    }
+    else
+    {
+      gender="female";
+    }
+
+    formdata.push({username:user.value,emailid:email.value,phoneno:phone.value,gender:gender});
+    console.log(formdata);
+
+    localStorage.setItem("mydata",JSON.stringify(formdata));
+    getdata();
+  }
+
+var getalldata;
+function getdata()
+{
+  getalldata = JSON.parse(localStorage.getItem("mydata"));
+  console.log(getalldata);
+  var mydatalist = getalldata.map((d,a)=>{
+      return `
+        <tr>
+        <td>${++a}</td>
+        <td>${d.username}</td>
+        <td>${d.emailid}</td>
+        <td>${d.phoneno}</td>
+        <td>${d.gender}</td>
+      </tr>
+
+      `;
+
+  })
+  document.getElementById('showdata').innerHTML=mydatalist.join("");
+}
+
+getdata();
+
+</script>
+
+  
+</body>
+</html>
